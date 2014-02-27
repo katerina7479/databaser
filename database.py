@@ -91,6 +91,11 @@ class Database():
         self.update(tablename, myid[0], dic)
         return myid[0]
 
+    def copy(self, tablename, row):
+        answerdict = self._query_table_row(tablename, row)
+        del answerdict['id']
+        return self.add(tablename, answerdict)
+
     def _query_table_all(self, tablename):
         columns = self.get_columns(tablename)
         values = self._query_cols_all(tablename, columns)

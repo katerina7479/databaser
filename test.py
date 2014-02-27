@@ -27,6 +27,22 @@ class DbTest(unittest.TestCase):
         test = self.db.delete(self.tablename, row)
         self.assertEqual(test, True)
 
+    def test_copy(self):
+        row = self.db.add(self.tablename, {'legs': 4, 'material': 'wood'})
+        self.assertEqual(row, 1)
+
+        row2 = self.db.copy(self.tablename, row)
+        self.assertEqual(row2, 2)
+
+        data = self.db.query(self.tablename, row=row2)
+        self.assertEqual(data['material'], 'wood')
+
+        test = self.db.delete(self.tablename, row)
+        self.assertEqual(test, True)
+
+        test = self.db.delete(self.tablename, row2)
+        self.assertEqual(test, True)
+
     def test_tables(self):
         table_list = self.db.get_table_list()
         self.assertIn(self.tablename, table_list)
